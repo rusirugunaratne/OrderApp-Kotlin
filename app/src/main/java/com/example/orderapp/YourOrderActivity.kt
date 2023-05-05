@@ -7,8 +7,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class YourOrderActivity : AppCompatActivity() {
+    private lateinit var dbRef: DatabaseReference
     private lateinit var etName: TextView
     private lateinit var etDescription: TextView
     private lateinit var etSkills: TextView
@@ -17,6 +21,8 @@ class YourOrderActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_your_order)
+
+        dbRef = FirebaseDatabase.getInstance().getReference("Orders")
 
         etName = findViewById(R.id.you_order_order_name)
         etDescription = findViewById(R.id.you_order_order_description)
@@ -42,17 +48,36 @@ class YourOrderActivity : AppCompatActivity() {
         edit.setOnClickListener{
             val intent = Intent(this, CreateNewOrderActivity::class.java)
             intent.putExtra("type", "edit")
+            intent.putExtra("skill1", skill1)
+            intent.putExtra("skill2", skill2)
+            intent.putExtra("skill3", skill3)
+            intent.putExtra("name", projectName)
+            intent.putExtra("details", projectDescription)
             startActivity(intent)
         }
 
         val post = findViewById<Button>(R.id.btn_post_order)
-        edit.setOnClickListener{
+        post.setOnClickListener{
+            finish()
+            addOrder()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun addOrder(){
+        val projectName = intent.getStringExtra("name")
+        val projectDescription = intent.getStringExtra("details")
+        val skill1 = intent.getStringExtra("skill1")
+        val skill2 = intent.getStringExtra("skill2")
+        val skill3 = intent.getStringExtra("skill3")
 
+        val orderId = dbRef.push().key!!
+        val order = OrderModel(orderId, projectName, projectDescription, "$skill1, $skill2, $skill3")
+        dbRef.child(orderId).setValue(order).addOnCompleteListener{
+            Toast.makeText(this, "Order Added Successfully", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener { err->
+            Toast.makeText(this, "Error ${err.message} ", Toast.LENGTH_LONG).show()
+        }
     }
 }

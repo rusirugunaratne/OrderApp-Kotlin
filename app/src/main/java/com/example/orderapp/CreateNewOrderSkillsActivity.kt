@@ -3,6 +3,7 @@ package com.example.orderapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
 
@@ -23,6 +24,10 @@ class CreateNewOrderSkillsActivity : AppCompatActivity() {
         etSkill2 = findViewById(R.id.txt_add_skill2)
         etSkill3 = findViewById(R.id.txt_add_skill3)
 
+        if(type == "edit"){
+            setValues()
+        }
+
         val next = findViewById<Button>(R.id.btn_add_skill_next)
         next.setOnClickListener{
             finish()
@@ -35,5 +40,11 @@ class CreateNewOrderSkillsActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
+    }
+
+    private fun setValues() {
+        etSkill1.text = Editable.Factory.getInstance().newEditable(intent.getStringExtra("skill1"))
+        etSkill2.text = Editable.Factory.getInstance().newEditable(intent.getStringExtra("skill2"))
+        etSkill3.text = Editable.Factory.getInstance().newEditable(intent.getStringExtra("skill3"))
     }
 }
