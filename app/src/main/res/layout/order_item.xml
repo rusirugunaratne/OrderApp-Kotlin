@@ -7,11 +7,12 @@
 
     <LinearLayout
         android:layout_width="363dp"
-        android:layout_height="93dp"
+        android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/shape"
         android:orientation="vertical"
         android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,9 +40,17 @@
         <TextView
             android:id="@+id/item_skills_list"
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="33dp"
             android:text="Skills List"
             android:textColor="#AAA7A7" />
+
+        <Button
+            android:id="@+id/btn_delete_order_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#2196F3"
+            android:text="Delete"
+            app:icon="@drawable/ic_baseline_delete_forever_24" />
 
         <Space
             android:layout_width="match_parent"
